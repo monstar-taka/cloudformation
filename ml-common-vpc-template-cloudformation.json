@@ -1,0 +1,411 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "vpc84b012e1": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "InstanceTenancy": "default",
+        "EnableDnsSupport": "true",
+        "EnableDnsHostnames": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "monstar vpc"
+          }
+        ]
+      }
+    },
+    "subnete89f958a": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-public"
+          }
+        ]
+      }
+    },
+    "subnet7f895826": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.3.0/24",
+        "AvailabilityZone": "ap-northeast-1c",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-private"
+          }
+        ]
+      }
+    },
+    "subnete99f958b": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-private"
+          }
+        ]
+      }
+    },
+    "subnet5789580e": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.1.0/24",
+        "AvailabilityZone": "ap-northeast-1c",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-public"
+          }
+        ]
+      }
+    },
+    "igwa2af6ec7": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-inet-gw"
+          }
+        ]
+      }
+    },
+    "dopt6d3d360f": {
+      "Type": "AWS::EC2::DHCPOptions",
+      "Properties": {
+        "DomainName": "ap-northeast-1.compute.internal",
+        "DomainNameServers": [
+          "AmazonProvidedDNS"
+        ]
+      }
+    },
+    "aclb2ce78d7": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        }
+      }
+    },
+    "rtb3610a053": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ml-public-route-tbl"
+          }
+        ]
+      }
+    },
+    "rtbcc2f9fa9": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        }
+      }
+    },
+    "sgproddbsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "production db security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "prod-db-sg"
+          }
+        ]
+      }
+    },
+    "sgprodwebsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "production web security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "prod-web-sg"
+          }
+        ]
+      }
+    },
+    "sgdevdbsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "develop db security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "dev-db-sg"
+          }
+        ]
+      }
+    },
+    "sgdevwebsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "develop web security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "dev-web-sg"
+          }
+        ]
+      }
+    },
+    "sgstgdbsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "staging db security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "stg-db-sg"
+          }
+        ]
+      }
+    },
+    "sgstgwebsg": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "staging web security group",
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "stg-web-sg"
+          }
+        ]
+      }
+    },
+    "acl1": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Egress": "true",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        }
+      }
+    },
+    "acl2": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "CidrBlock": "0.0.0.0/0",
+        "Protocol": "-1",
+        "RuleAction": "allow",
+        "RuleNumber": "100",
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        }
+      }
+    },
+    "subnetacl1": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        },
+        "SubnetId": {
+          "Ref": "subnet5789580e"
+        }
+      }
+    },
+    "subnetacl2": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        },
+        "SubnetId": {
+          "Ref": "subnet7f895826"
+        }
+      }
+    },
+    "subnetacl3": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        },
+        "SubnetId": {
+          "Ref": "subnete99f958b"
+        }
+      }
+    },
+    "subnetacl4": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "aclb2ce78d7"
+        },
+        "SubnetId": {
+          "Ref": "subnete89f958a"
+        }
+      }
+    },
+    "gw1": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "InternetGatewayId": {
+          "Ref": "igwa2af6ec7"
+        }
+      }
+    },
+    "subnetroute1": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rtb3610a053"
+        },
+        "SubnetId": {
+          "Ref": "subnet5789580e"
+        }
+      }
+    },
+    "subnetroute2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "rtb3610a053"
+        },
+        "SubnetId": {
+          "Ref": "subnete89f958a"
+        }
+      }
+    },
+    "route1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "RouteTableId": {
+          "Ref": "rtb3610a053"
+        },
+        "GatewayId": {
+          "Ref": "igwa2af6ec7"
+        }
+      },
+      "DependsOn": "gw1"
+    },
+    "dchpassoc1": {
+      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
+      "Properties": {
+        "VpcId": {
+          "Ref": "vpc84b012e1"
+        },
+        "DhcpOptionsId": {
+          "Ref": "dopt6d3d360f"
+        }
+      }
+    },
+    "egress1": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgproddbsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress2": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgprodwebsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress3": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgdevdbsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress4": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgdevwebsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress5": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgstgdbsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    },
+    "egress6": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "sgstgwebsg"
+        },
+        "IpProtocol": "-1",
+        "CidrIp": "0.0.0.0/0"
+      }
+    }
+  },
+  "Description": "common vpc template for monstar lab"
+}
