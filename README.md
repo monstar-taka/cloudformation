@@ -1,2 +1,19 @@
-# cloudformation
-aws cloud formation template for monstar lab
+# Amazon Virtual Private CloudをCloudFormationを使用して自動構築
+## 構成イメージ図
+![http://private-gyazao-images.s3.amazonaws.com/Database.png](http://private-gyazao-images.s3.amazonaws.com/Database.png)
+## 説明
+以下のこのテンプレートを使用し作成出来る内容を記載
+- virtual private cloud
+- public subnet(ap-northeast-1a)
+- public subnet(ap-northeast-1c)
+- private subnet(ap-northeast-1a)
+- private subnet(ap-northeast-1c)
+- internet gateway
+- 開発用Web Security Group
+- 開発用DB Security Group
+- ステージング用Web Security Group
+- ステージング用DB Security Group
+- 本番用Web Security Group
+- 本番用DB Security Group
+
+以上をTokyo Regionに作成
