@@ -1,6 +1,6 @@
 # Amazon Virtual Private CloudをCloudFormationを使用して自動構築
 ## 構成イメージ図
-![http://private-gyazao-images.s3.amazonaws.com/Database.png](http://private-gyazao-images.s3.amazonaws.com/Database.png)
+![https://s3.amazonaws.com/private-gyazao-images/Database.png](https://s3.amazonaws.com/private-gyazao-images/Database.png)
 ## 説明
 以下のこのテンプレートを使用し作成出来る内容を記載
 - virtual private cloud
