@@ -447,7 +447,7 @@
           "Ref": "sgstgwebsg"
         }
       }
-    },
+    }
   },
   "Description": "common vpc template for monstar lab"
 }
